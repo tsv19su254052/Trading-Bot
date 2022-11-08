@@ -1,12 +1,8 @@
 """All basic indicators classes.
-
 This file allows developer to use any basic financial indicator contains in this file.
-
 All basic indicator classes must inherit from the `BasicIndicator` class to standardize all used basic indicators.
-
 This script requires that `pandas` and `numpy` be installed within the Python 
 environment you are running this script in.
-
 This file can also be imported as a module and contains of the following 
 classes and functions:
     * BasicIndicator - abstract class used to reprensent the base of each basic indicator that we will use
@@ -18,7 +14,6 @@ classes and functions:
 """
 
 import abc
-
 import numpy as np
 import pandas as pd
 
@@ -29,23 +24,18 @@ from trading_bot.indicators.utils import wwma
 class BasicIndicator(Indicator, metaclass=abc.ABCMeta):
     """
     An abstract class used to reprensent the base of each basic indicator that we will use.
-
     Attributes
     ----------
     period : int
         number of ticks that indicator is based to calculate
-
     Methods
     -------
     get_column_name()
         Return the column name associated at this indicator.
-
     calculate_serie(serie)
         Calculate the indicator for the given serie.
-
     calculate(df)
         Calculate the indicator for the given data.
-
     calculate_in_place(df)
         Calculate the indicator for the given data and put this directly in 
         the dataframe.
@@ -54,7 +44,6 @@ class BasicIndicator(Indicator, metaclass=abc.ABCMeta):
     def __init__(self, column_name: str, period: int) -> None:
         """
         Initializer and constructor of the class.
-
         Parameters
         ----------
         column_name : str
@@ -69,23 +58,18 @@ class HighestHigh(BasicIndicator):
     """
     A class used to reprensent "Highest High" indicator.
     This statistical indicator makes a line with the highest "High" n-period ticks indicator.
-
     Attributes
     ----------
     period : int
         number of ticks that indicator is based to calculate
-
     Methods
     -------
     get_column_name()
         Return the column name associated at this indicator.
-
     calculate_serie(serie)
         Calculate the indicator for the given serie.
-
     calculate(df)
         Calculate the indicator for the given data.
-
     calculate_in_place(df)
         Calculate the indicator for the given data and put this directly in 
         the dataframe.
@@ -94,12 +78,10 @@ class HighestHigh(BasicIndicator):
     def __init__(self, period: int = 14) -> None:
         """
         Initializer and constructor of the class.
-
         Parameters
         ----------
         period : int, optional
             number of ticks that indicator is based to calculate (default = 14)
-
         Raises
         ------
         ValueError
@@ -108,39 +90,36 @@ class HighestHigh(BasicIndicator):
         if period < 0:
             raise ValueError("period cannot be lesser than 0")
         period = int(period)
-        BasicIndicator.__init__(
-            self, "Highest High (" + str(period) + ")", period)
+        BasicIndicator.__init__(self, 
+                                "Highest High (" + str(period) + ")", 
+                                period)
 
     def calculate_serie(self, serie: pd.Series) -> pd.Series:
         """
         Calculate the indicator for the given serie.
-
         Parameters
         ----------
         serie : pd.Series
             data used to calculate the indicator
-
         Returns
         -------
         pd.Series
             the serie containing the calculated data
         """
-        return serie.rolling(window=self.period, min_periods=self.period).max(skipna=True)
+        return serie.rolling(window=self.period, 
+                             min_periods=self.period).max(skipna=True)
 
     def calculate(self, df: pd.DataFrame) -> pd.Series:
         """
         Calculate the indicator for the given data.
-
         Parameters
         ----------
         df : pd.DataFrame
             data used to calculate the indicator
-
         Returns
         -------
         pd.Series
             the serie containing the calculated data
-
         Raises
         ------
         KeyError
@@ -153,23 +132,18 @@ class LowestLow(BasicIndicator):
     """
     A class used to reprensent "Lowest Low" indicator.
     This statistical indicator makes a line with the Lowest "Low" n-period ticks indicator.
-
     Attributes
     ----------
     period : int
         number of ticks that indicator is based to calculate
-
     Methods
     -------
     get_column_name()
         Return the column name associated at this indicator.
-
     calculate_serie(serie)
         Calculate the indicator for the given serie.
-
     calculate(df)
         Calculate the indicator for the given data.
-
     calculate_in_place(df)
         Calculate the indicator for the given data and put this directly in 
         the dataframe.
@@ -178,12 +152,10 @@ class LowestLow(BasicIndicator):
     def __init__(self, period: int = 14) -> None:
         """
         Initializer and constructor of the class.
-
         Parameters
         ----------
         period : int, optional
             number of ticks that indicator is based to calculate (default = 14)
-
         Raises
         ------
         ValueError
@@ -192,18 +164,17 @@ class LowestLow(BasicIndicator):
         if period < 0:
             raise ValueError("period cannot be lesser than 0")
         period = int(period)
-        BasicIndicator.__init__(
-            self, "Lowest Low (" + str(period) + ")", period)
+        BasicIndicator.__init__(self, 
+                                "Lowest Low (" + str(period) + ")", 
+                                period)
 
     def calculate_serie(self, serie: pd.Series) -> pd.Series:
         """
         Calculate the indicator for the given serie.
-
         Parameters
         ----------
         serie : pd.Series
             data used to calculate the indicator
-
         Returns
         -------
         pd.Series
@@ -214,17 +185,14 @@ class LowestLow(BasicIndicator):
     def calculate(self, df: pd.DataFrame) -> pd.Series:
         """
         Calculate the indicator for the given data.
-
         Parameters
         ----------
         df : pd.DataFrame
             data used to calculate the indicator
-
         Returns
         -------
         pd.Series
             the serie containing the calculated data
-
         Raises
         ------
         KeyError
@@ -237,23 +205,18 @@ class MedianPrice(BasicIndicator):
     """
     A class used to reprensent "Median price" indicator.
     This statistical indicator makes a line with the average of the "High" and "Low" prices.
-
     Attributes
     ----------
     period : int
         number of ticks that indicator is based to calculate
-
     Methods
     -------
     get_column_name()
         Return the column name associated at this indicator.
-
     calculate_serie(high, low)
         Calculate the indicator for the given serie.
-
     calculate(df)
         Calculate the indicator for the given data.
-
     calculate_in_place(df)
         Calculate the indicator for the given data and put this directly in 
         the dataframe.
@@ -268,14 +231,12 @@ class MedianPrice(BasicIndicator):
     def calculate_serie(self, high: pd.Series, low: pd.Series) -> pd.Series:
         """
         Calculate the indicator for the given serie.
-
         Parameters
         ----------
         high : pd.Series
             data used to calculate the indicator
         low : pd.Series
             data used to calculate the indicator
-
         Returns
         -------
         pd.Series
@@ -286,17 +247,14 @@ class MedianPrice(BasicIndicator):
     def calculate(self, df: pd.DataFrame) -> pd.Series:
         """
         Calculate the indicator for the given data.
-
         Parameters
         ----------
         df : pd.DataFrame
             data used to calculate the indicator
-
         Returns
         -------
         pd.Series
             the serie containing the calculated data
-
         Raises
         ------
         KeyError
@@ -309,23 +267,18 @@ class TypicalPrice(BasicIndicator):
     """
     A class used to reprensent "Typical price" indicator.
     This statistical indicator makes a line with the average of the "High", "Low" and "Close" prices.
-
     Attributes
     ----------
     period : int
         number of ticks that indicator is based to calculate
-
     Methods
     -------
     get_column_name()
         Return the column name associated at this indicator.
-
     calculate_serie(high, low, close)
         Calculate the indicator for the given serie.
-
     calculate(df)
         Calculate the indicator for the given data.
-
     calculate_in_place(df)
         Calculate the indicator for the given data and put this directly in 
         the dataframe.
@@ -340,7 +293,6 @@ class TypicalPrice(BasicIndicator):
     def calculate_serie(self, high: pd.Series, low: pd.Series, close: pd.Series) -> pd.Series:
         """
         Calculate the indicator for the given serie.
-
         Parameters
         ----------
         high : pd.Series
@@ -349,7 +301,6 @@ class TypicalPrice(BasicIndicator):
             data used to calculate the indicator
         close : pd.Series
             data used to calculate the indicator
-
         Returns
         -------
         pd.Series
@@ -360,17 +311,14 @@ class TypicalPrice(BasicIndicator):
     def calculate(self, df: pd.DataFrame) -> pd.Series:
         """
         Calculate the indicator for the given data.
-
         Parameters
         ----------
         df : pd.DataFrame
             data used to calculate the indicator
-
         Returns
         -------
         pd.Series
             the serie containing the calculated data
-
         Raises
         ------
         KeyError
@@ -383,23 +331,18 @@ class AverageTrueRange(BasicIndicator):
     """
     A class used to reprensent "Average True Range" or "ATR" indicator.
     This volatility indicator makes a line with the average of the "High", "Low" and "Close" prices.
-
     Attributes
     ----------
     period : int
         number of ticks that indicator is based to calculate
-
     Methods
     -------
     get_column_name()
         Return the column name associated at this indicator.
-
     calculate_serie(high, low, close)
         Calculate the indicator for the given serie.
-
     calculate(df)
         Calculate the indicator for the given data.
-
     calculate_in_place(df)
         Calculate the indicator for the given data and put this directly in 
         the dataframe.
@@ -408,12 +351,10 @@ class AverageTrueRange(BasicIndicator):
     def __init__(self, period: int = 14) -> None:
         """
         Initializer and constructor of the class.
-
         Parameters
         ----------
         period : int, optional
             number of ticks that indicator is based to calculate (default = 14)
-
         Raises
         ------
         ValueError
@@ -422,13 +363,11 @@ class AverageTrueRange(BasicIndicator):
         if period < 0:
             raise ValueError("period cannot be lesser than 0")
         period = int(period)
-        BasicIndicator.__init__(
-            self, "Average True Range (" + str(period) + ")", period)
+        BasicIndicator.__init__(self, "Average True Range (" + str(period) + ")", period)
 
     def calculate_serie(self, high: pd.Series, low: pd.Series, close: pd.Series) -> pd.Series:
         """
         Calculate the indicator for the given serie.
-
         Parameters
         ----------
         high : pd.Series
@@ -437,30 +376,25 @@ class AverageTrueRange(BasicIndicator):
             data used to calculate the indicator
         close : pd.Series
             data used to calculate the indicator
-
         Returns
         -------
         pd.Series
             the serie containing the calculated data
         """
-        tr = np.stack((abs(high - low), abs(high - close.shift(1)),
-                       abs(low - close.shift(1)))).max(axis=1)
+        tr = np.stack((abs(high - low), abs(high - close.shift(1)), abs(low - close.shift(1)))).max(axis=1)
         return wwma(tr, self.period)
 
     def calculate(self, df: pd.DataFrame) -> pd.Series:
         """
         Calculate the indicator for the given data.
-
         Parameters
         ----------
         df : pd.DataFrame
             data used to calculate the indicator
-
         Returns
         -------
         pd.Series
             the serie containing the calculated data
-
         Raises
         ------
         KeyError
