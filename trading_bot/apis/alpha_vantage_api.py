@@ -29,7 +29,7 @@ class AlphaVantage(BaseAPI):
                     "2. high": "High", 
                     "3. low": "Low", 
                     "4. close": "Close", 
-                    "5. volume": "Volume"}
+                    "5. volume": "Volume"}  # I agree
         self.rename_column_name(dataDict)
         expected_output = self.df[np.logical_and(self.df.index >= start_date, 
                                                  self.df.index <= end_date)]
