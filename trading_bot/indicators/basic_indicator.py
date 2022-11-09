@@ -92,7 +92,7 @@ class HighestHigh(BasicIndicator):
         period = int(period)
         BasicIndicator.__init__(self, 
                                 "Highest High (" + str(period) + ")", 
-                                period)
+                                period)  # agree
 
     def calculate_serie(self, serie: pd.Series) -> pd.Series:
         """
@@ -107,7 +107,7 @@ class HighestHigh(BasicIndicator):
             the serie containing the calculated data
         """
         return serie.rolling(window=self.period, 
-                             min_periods=self.period).max(skipna=True)
+                             min_periods=self.period).max(skipna=True)  # agree
 
     def calculate(self, df: pd.DataFrame) -> pd.Series:
         """
