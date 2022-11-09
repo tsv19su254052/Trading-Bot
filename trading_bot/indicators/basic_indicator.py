@@ -164,9 +164,7 @@ class LowestLow(BasicIndicator):
         if period < 0:
             raise ValueError("period cannot be lesser than 0")
         period = int(period)
-        BasicIndicator.__init__(self, 
-                                "Lowest Low (" + str(period) + ")", 
-                                period)
+        BasicIndicator.__init__(self, "Lowest Low (" + str(period) + ")", period)  # this is one of my styles
 
     def calculate_serie(self, serie: pd.Series) -> pd.Series:
         """
